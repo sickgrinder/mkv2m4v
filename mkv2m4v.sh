@@ -2,12 +2,6 @@
 in=$1
 out=$2
 
-if [ -z $in ] || [ -z $out ] 
-then
-	echo "We need both a input and destination!"
-    
-    exit
-fi
 
 IFS=$'\n'
 for i in $(find "$in" -name *.mkv); do
@@ -16,7 +10,9 @@ for i in $(find "$in" -name *.mkv); do
 
 chan=$(ffprobe "$i" -show_streams 2>/dev/null | grep -i "channels" | cut -d= -f2)
 profile=$(ffprobe "$i" -show_streams 2>/dev/null | grep -i "codec_name=dca" | cut -d= -f2)
+profile2=$(ffprobe "$i" -show_streams 2>/dev/null | grep -i "codec_name=aac" | cut -d= -f2)
 codec='dca'
+codec2='aac'
 
 #For DTS to AC3 conversion.
 
@@ -36,6 +32,12 @@ ffmpeg -i "$i" -map 0:a -vn -c:a copy "$out"/out.ac3 && ffmpeg -i "$i" -map 0:a 
 ffmpeg -i "$out"/out.mp4 -i "$out"/out.m4a -i "$out"/out.ac3 -map 0:0 -map 1:0 -map 2:0  -metadata:s:a:0 handler="Stereo" -metadata:s:a:1 handler="Dolby Surround" -metadata:s:a:0 language=eng -metadata:s:a:1 language=eng -c:v copy  -c:a:0 copy -c:a:1 copy -movflags faststart -threads 0 "$out"/$(basename "${i/.mkv}").m4v
 
 rm -rf "$out"/out.*
+
+#For two channel aac streams, mostly found in standard definition 
+
+elif [[ "$profile2" == "$codec2" ]]; then
+
+ffmpeg -i "$i" -map 0:v -c:v copy -metadata:s:a:0 handler="Stereo" -map 0:a -c:a copy -movflags faststart -threads 0 "$out"/$(basename "${i/.mkv}").m4v
 
 #This is for videos that only contain two channel AC3.
 
