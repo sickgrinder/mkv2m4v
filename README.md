@@ -19,3 +19,6 @@ using ffmpeg.
 
 # What it will not do
 * Tag a file with metadata and artwork (check out https://github.com/mdhiggins/sickbeard_mp4_automator for that)
+
+# Usage
+mkv2m4v.sh <input directory/file> <output directory>
