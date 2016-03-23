@@ -1,4 +1,4 @@
-# Script is usless now, as of iOS 9.3 support for AC3 is included and 5.1 plays back fine on mobile (just in two channel)
+# Script is usless now, as of iOS 9.3 support for AC3 is supported and 5.1 plays back fine on mobile (just in two channel)
 
 # mkv2m4v
 
