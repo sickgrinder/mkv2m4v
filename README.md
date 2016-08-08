@@ -1,5 +1,3 @@
-# Script is usless now, as of iOS 9.3 support for AC3 is supported and 5.1 plays back fine on mobile (just in two channel)
-
 # mkv2m4v
 
 This is just a stupid bash script to remux an mkv containing either DTS or AC3 audio streams and put them in a compatible format for iOS devices 
